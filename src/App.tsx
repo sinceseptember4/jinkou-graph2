@@ -39,7 +39,7 @@ function App() {
 
   axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
     datas.push(response.data.result.data[0].data);
-    console.log(datas);
+    console.log(datas); 
   });
 
 
