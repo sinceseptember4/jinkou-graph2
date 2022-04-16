@@ -7,27 +7,44 @@ ChartJS.register(...registerables);
 
 
 function App() {
-  const [post, setPost] = React.useState([]);
+  const [post, setPost] = React.useState();
   const [slectnumstate, setslectnumstate] = React.useState([]);
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
   const labels = ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18"];
   const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
   }
-  const buttom = () => {
+  const buttom = () :void=> {
     const elements = document.getElementsByName("select");
 
-    console.log("--- 選択したオプションは以下の通りです ---");
-
+    let posts = [];
     for (let i=0; i<elements.length; i++){
       {/* @ts-ignore */}
       if (elements[i].checked){
         {/* @ts-ignore */}
         console.log(elements[i].value);
+        {/* @ts-ignore */}
+        {/* @ts-ignore */}
+        posts.push(elements[i].value);
+        console.log(posts);
+        {/* @ts-ignore */}
+        setslectnumstate(posts);
+        console.log(slectnumstate);
       }
     }
  }
+ React.useEffect(() => {
+  let datas :string[]= [];
+  slectnumstate.forEach(v => {
 
+  axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
+    datas.push(response.data.result.data[0].data);
+    console.log(datas);
+  });
+
+
+});
+}, [slectnumstate]);
   const get :Array<string>=[];
   const selectnum :Array<number>=[];
   const dataset  :Array<string>=[];
@@ -142,11 +159,18 @@ function App() {
       <div style={sell}><input type="checkbox" name="select" value="45"/><p style={p}>宮崎県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="46"/><p style={p}>鹿児島県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="47"/><p style={p}>沖縄県</p></div>
-  </label>
-  {/* @ts-ignore */}
-  <input type="button" value="確認" onClick={buttom()}/>
-  </div>
 
+  </label>
+        <input type="button" value="確認" onClick={buttom}/>
+  
+  </div>
+      <Line
+        height={300}
+        width={300}
+        data={graphData}
+        options={options}
+        id="chart-key"
+      />
     </div>
   );
 }
