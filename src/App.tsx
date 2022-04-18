@@ -7,65 +7,86 @@ ChartJS.register(...registerables);
 
 
 function App() {
-  const [post, setPost] = React.useState();
+  const [graphdata, setgraphdata] = React.useState();
   const [slectnumstate, setslectnumstate] = React.useState([]);
+  const [Statelabels, setStatelabels] = React.useState([]);
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
   const labels = ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18"];
   const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
   }
+  const get :Array<string>=[];
+  const selectnum :Array<number>=[];
+  const dataset  :Array<string>=[];
+  let datavalue: Array<number> = [];
+  let datasets =[
+    {lavel: "長崎県",
+      data:   [1760421, 1641245, 1570245, 1571912, 1590564, 1593968, 1562959, 1544934, 1516523, 1478632, 1426779, 1377187, 1320596, 1257939, 1192223, 1124291, 1053851, 982200]
+      ,borderColor: 'rgb(141, 142, 211)',
+    },{lavel: "宮崎県",
+    data:   [1134590, 1080692, 1051105, 1085055, 1151587, 1175543, 1168907, 1175819, 1170007, 1153042, 1135233, 1104069, 1066719, 1023170, 976626, 928034, 876863, 824806]
+    ,borderColor: 'rgb(80, 75, 10)',
+  },
+    
+  ]
+
+  
+  let graphData = {
+    labels: labels,
+    datasets: datasets,
+  };
   const buttom = () :void=> {
     const elements = document.getElementsByName("select");
 
-    let posts = [];
+    let posts :never[]= [];
     for (let i=0; i<elements.length; i++){
       {/* @ts-ignore */}
       if (elements[i].checked){
         {/* @ts-ignore */}
-        console.log(elements[i].value);
-        {/* @ts-ignore */}
-        {/* @ts-ignore */}
         posts.push(elements[i].value);
-        console.log(posts);
-        {/* @ts-ignore */}
         setslectnumstate(posts);
         console.log(slectnumstate);
       }
     }
  }
  React.useEffect(() => {
-  let datas :string[]= [];
+
+  let cnt :number = 0;
+  var musicians= new Array();
   slectnumstate.forEach(v => {
 
   axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
-    datas.push(response.data.result.data[0].data);
-    console.log(datas); 
-  });
-
+    let datas :string[]= [];
+    let datavalue :number[]= [];
+    datas = response.data.result.data[0].data;
+    //console.log(datas);
+    for (let step = 0; step < datas.length; step++) {
+    {/* @ts-ignore */}
+    datavalue.push(datas[step].value);
+    }
+    let red :number= Math.floor( Math.random() * 256 ) ;;
+    let bule :number= Math.floor( Math.random() * 256 ) ;;
+    let green :number= Math.floor( Math.random() * 256 ) ;;
+    let rgb = `rgb(${red}, ${bule}, ${green})`;
+    let hash: { lavel: string; data: number[]; borderColor:string;} ={ lavel: todoufuken[v-1], data: datavalue, borderColor: rgb};;
+    //console.log(hash);
+    musicians[cnt]=hash;
+    //console.log(musicians);
+    cnt=cnt+1;
 
 });
+});
+
+datasets = [];
+datasets = musicians;
+graphData = {
+  labels: labels,
+  datasets: datasets,
+};
+
+console.log(graphData);
 }, [slectnumstate]);
-  const get :Array<string>=[];
-  const selectnum :Array<number>=[];
-  const dataset  :Array<string>=[];
-  let datavalue: Array<number> = [];
-  var hash1: { lavel: string; data: string; borderColor:string;} = { lavel: "", data: "", borderColor:"",};
-  const test =[
-    {
-      label: "A社",
-      data: [65, 59, 60, 81, 56, 55],
-      borderColor: "rgb(75, 192, 192)",
-    },
-    {
-      label: "B社",
-      data: [60, 55, 57, 61, 75, 50],
-      borderColor: "rgb(75, 100, 192)",
-    },
-  ]
-  let graphData = {
-    labels: labels,
-    datasets: test,
-  };
+ 
 
 
  
