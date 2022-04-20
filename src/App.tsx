@@ -1,5 +1,6 @@
 
-import React ,{useEffect}from "react";
+import React ,{useEffect , Fragment }from "react";
+import ReactDOM from 'react-dom/client';
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from 'chart.js';
@@ -20,10 +21,12 @@ function App() {
   const dataset  :Array<string>=[];
   let datavalue: Array<number> = [];
   let datasets =[
-    {lavel: "長崎県",
+    {
+      lavel: "長崎県",
       data:   [1760421, 1641245, 1570245, 1571912, 1590564, 1593968, 1562959, 1544934, 1516523, 1478632, 1426779, 1377187, 1320596, 1257939, 1192223, 1124291, 1053851, 982200]
       ,borderColor: 'rgb(141, 142, 211)',
-    },{lavel: "宮崎県",
+    },{
+      lavel: "宮崎県",
     data:   [1134590, 1080692, 1051105, 1085055, 1151587, 1175543, 1168907, 1175819, 1170007, 1153042, 1135233, 1104069, 1066719, 1023170, 976626, 928034, 876863, 824806]
     ,borderColor: 'rgb(80, 75, 10)',
   },
@@ -87,8 +90,6 @@ graphData = {
 console.log(graphData);
 }, [slectnumstate]);
  
-
-
  
 //console.log(test);
 
@@ -129,6 +130,19 @@ console.log(graphData);
   const Width :number=  window.screen.width*0.3; 
   const Height :number= window.screen.height*0.3;
   //console.log(  window.screen.height);
+
+const graph  = ReactDOM.createRoot(
+  document.getElementById('graph') as HTMLElement
+);
+graph.render(
+  <Line
+  height={Height}
+  width={Width}
+  data={graphData}
+  options={options}
+  id="chart-key"
+/>
+);
   return (
     <div className="App" style={divStyle}>
   <div style={Selectstyle}>
@@ -184,14 +198,17 @@ console.log(graphData);
   </label>
         <input type="button" value="確認" onClick={buttom}/>
   
+  <div id="graph"></div>
   </div>
+    <Fragment>
       <Line
-        height={300}
-        width={300}
+        height={Height}
+        width={Width}
         data={graphData}
         options={options}
         id="chart-key"
       />
+      </Fragment>
     </div>
   );
 }
