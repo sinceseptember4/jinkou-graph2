@@ -1,5 +1,5 @@
 
-import React ,{useEffect , Fragment }from "react";
+import React from "react";
 import ReactDOM from 'react-dom/client';
 import axios from "axios";
 import { Line } from "react-chartjs-2";
@@ -8,36 +8,50 @@ ChartJS.register(...registerables);
 
 
 function App() {
-  const [graphdata, setgraphdata] = React.useState();
-  const [slectnumstate, setslectnumstate] = React.useState([]);
-  const [Statelabels, setStatelabels] = React.useState([]);
-  const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
   const labels = ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18"];
-  const headers = {
+
+  const [graphdata, setgraphdata] = React.useState< {
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        borderColor: string;
+    }[];
+}>({
+  labels: labels,
+  datasets: [
+    {
+      label: "宮崎県",
+      data:  [1134590, 1080692, 1051105, 1085055, 1151587, 1175543, 1168907, 1175819, 1170007, 1153042, 1135233, 1104069, 1066719, 1023170, 976626, 928034, 876863, 824806]      ,
+      borderColor: "rgb(75, 192, 192)",
+    },
+    {
+      label: "長崎県",
+      data: [1760421, 1641245, 1570245, 1571912, 1590564, 1593968, 1562959, 1544934, 1516523, 1478632, 1426779, 1377187, 1320596, 1257939, 1192223, 1124291, 1053851, 982200]      ,
+      borderColor: "rgb(75, 100, 192)",
+    },
+  ],
+});
+
+  const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
+  const [Statelabels, setStatelabels] = React.useState<never[]>([]);
+  const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
+    const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
   }
   const get :Array<string>=[];
   const selectnum :Array<number>=[];
   const dataset  :Array<string>=[];
   let datavalue: Array<number> = [];
-  let datasets =[
-    {
-      lavel: "長崎県",
-      data:   [1760421, 1641245, 1570245, 1571912, 1590564, 1593968, 1562959, 1544934, 1516523, 1478632, 1426779, 1377187, 1320596, 1257939, 1192223, 1124291, 1053851, 982200]
-      ,borderColor: 'rgb(141, 142, 211)',
-    },{
-      lavel: "宮崎県",
-    data:   [1134590, 1080692, 1051105, 1085055, 1151587, 1175543, 1168907, 1175819, 1170007, 1153042, 1135233, 1104069, 1066719, 1023170, 976626, 928034, 876863, 824806]
-    ,borderColor: 'rgb(80, 75, 10)',
-  },
-    
-  ]
+  let datasetbefore :{
+    lavel: string;
+    data: number[];
+    borderColor: string;
+}[]=[]
+  
 
   
-  let graphData = {
-    labels: labels,
-    datasets: datasets,
-  };
+
   const buttom = () :void=> {
     const elements = document.getElementsByName("select");
 
@@ -48,14 +62,14 @@ function App() {
         {/* @ts-ignore */}
         posts.push(elements[i].value);
         setslectnumstate(posts);
-        console.log(slectnumstate);
       }
     }
  }
  React.useEffect(() => {
-
+  //setgraphdata() ;
   let cnt :number = 0;
   var musicians= new Array();
+  console.log(slectnumstate);
   slectnumstate.forEach(v => {
 
   axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
@@ -72,26 +86,32 @@ function App() {
     let green :number= Math.floor( Math.random() * 256 ) ;;
     let rgb = `rgb(${red}, ${bule}, ${green})`;
     let hash: { lavel: string; data: number[]; borderColor:string;} ={ lavel: todoufuken[v-1], data: datavalue, borderColor: rgb};;
-    //console.log(hash);
-    musicians[cnt]=hash;
-    //console.log(musicians);
+    console.log(hash);
+    datasetbefore.push(hash);
     cnt=cnt+1;
 
 });
-});
 
-datasets = [];
-datasets = musicians;
-graphData = {
+});
+let graphData = {
   labels: labels,
-  datasets: datasets,
+  datasets: datasetbefore,
 };
 
 console.log(graphData);
+
+{/* @ts-ignore */}
+setgraphdata([graphData]) ;
+
+
+
+//console.log(graphdata);
 }, [slectnumstate]);
  
- 
-//console.log(test);
+React.useEffect(() => {
+  console.log(graphdata);
+}, [graphdata]);
+
 
   //var value: Array<number> = [];
 
@@ -131,18 +151,8 @@ console.log(graphData);
   const Height :number= window.screen.height*0.3;
   //console.log(  window.screen.height);
 
-const graph  = ReactDOM.createRoot(
-  document.getElementById('graph') as HTMLElement
-);
-graph.render(
-  <Line
-  height={Height}
-  width={Width}
-  data={graphData}
-  options={options}
-  id="chart-key"
-/>
-);
+
+
   return (
     <div className="App" style={divStyle}>
   <div style={Selectstyle}>
@@ -197,18 +207,15 @@ graph.render(
 
   </label>
         <input type="button" value="確認" onClick={buttom}/>
-  
-  <div id="graph"></div>
+  <p>{graphdata.labels}</p>
   </div>
-    <Fragment>
       <Line
         height={Height}
         width={Width}
-        data={graphData}
+        data={graphdata}
         options={options}
         id="chart-key"
       />
-      </Fragment>
     </div>
   );
 }
