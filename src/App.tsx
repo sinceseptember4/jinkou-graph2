@@ -34,7 +34,8 @@ function App() {
 });
 
   const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
-  const [Statelabels, setStatelabels] = React.useState<never[]>([]);
+  const [Statelabels, setStatelabels] = React.useState(0);
+  const [Stateaxios, setStateaxios] = React.useState();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
     const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
@@ -44,13 +45,20 @@ function App() {
   const dataset  :Array<string>=[];
   let datavalue: Array<number> = [];
   let datasetbefore :{
-    lavel: string;
+    label: string;
     data: number[];
     borderColor: string;
-}[]=[]
+}[]=[{
+  label: "aaa",
+  data: [0],
+  borderColor: "a",
+},{
+  label: "bbb",
+  data: [1],
+  borderColor: "a",
+}]
   
 
-  
 
   const buttom = () :void=> {
     const elements = document.getElementsByName("select");
@@ -64,49 +72,62 @@ function App() {
         setslectnumstate(posts);
       }
     }
- }
- React.useEffect(() => {
-  //setgraphdata() ;
+    //setgraphdata() ;
   let cnt :number = 0;
   var musicians= new Array();
   console.log(slectnumstate);
-  slectnumstate.forEach(v => {
-
-  axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
-    let datas :string[]= [];
+  datasetbefore =[];
+  posts.forEach(v => {
+    
     let datavalue :number[]= [];
-    datas = response.data.result.data[0].data;
-    //console.log(datas);
-    for (let step = 0; step < datas.length; step++) {
-    {/* @ts-ignore */}
-    datavalue.push(datas[step].value);
+    function axiosf (d :number) {
+
+      return axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${d}`,{headers: headers}).then((response) => {
+      let datas :string[]= [];
+      datas = response.data.result.data[0].data;
+      //console.log(response);
+      for (let step = 0; step < datas.length; step++) {
+      {/* @ts-ignore */}
+      datavalue.push(datas[step].value);
+      }
+      console.log(datavalue);
+      {/* @ts-ignore */}
+      setStateaxios(datavalue);
+      
+        });
+      }
+    async function async(i :number) {
+     
+      await axiosf(i);
+      let red :number= Math.floor( Math.random() * 256 ) ;;
+      let bule :number= Math.floor( Math.random() * 256 ) ;;
+let green :number= Math.floor( Math.random() * 256 ) ;;
+let rgb = `rgb(${red}, ${bule}, ${green})`;
+let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
+console.log(hash);
+
+datasetbefore.push(hash);
     }
-    let red :number= Math.floor( Math.random() * 256 ) ;;
-    let bule :number= Math.floor( Math.random() * 256 ) ;;
-    let green :number= Math.floor( Math.random() * 256 ) ;;
-    let rgb = `rgb(${red}, ${bule}, ${green})`;
-    let hash: { lavel: string; data: number[]; borderColor:string;} ={ lavel: todoufuken[v-1], data: datavalue, borderColor: rgb};;
-    console.log(hash);
-    datasetbefore.push(hash);
-    cnt=cnt+1;
+    async(v);
+
 
 });
-
-});
+cnt=cnt+1;
 let graphData = {
   labels: labels,
   datasets: datasetbefore,
 };
 
-console.log(graphData);
+
+console.log(datasetbefore);
 
 {/* @ts-ignore */}
-setgraphdata([graphData]) ;
-
-
-
+setgraphdata(graphData) ;
 //console.log(graphdata);
-}, [slectnumstate]);
+ }
+ React.useEffect(() => {
+   
+}, [Stateaxios]);
  
 React.useEffect(() => {
   console.log(graphdata);
@@ -147,19 +168,19 @@ React.useEffect(() => {
     height: "30px",
     margin: "0",
   };
-  const Width :number=  window.screen.width*0.3; 
-  const Height :number= window.screen.height*0.3;
+  let Width :number=  window.screen.width*0.3; 
+  let Height :number= window.screen.height*0.3;
   //console.log(  window.screen.height);
 
 
 
   return (
-    <div className="App" style={divStyle}>
+    <>
   <div style={Selectstyle}>
   <label>
-      <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p}>北海道</p></div>
-      <div style={sell}><input type="checkbox" name="select" value="2"/><p style={p}>青森県</p></div>
-      <div style={sell}><input type="checkbox" name="select" value="3"/><p style={p}>岩手県</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="1"defaultChecked/><p style={p} >北海道</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="2"defaultChecked/><p style={p}>青森県</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="3"defaultChecked/><p style={p}>岩手県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="4"/><p style={p}>宮城県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="5"/><p style={p}>秋田県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="6"/><p style={p}>山形県</p></div>
@@ -206,17 +227,16 @@ React.useEffect(() => {
       <div style={sell}><input type="checkbox" name="select" value="47"/><p style={p}>沖縄県</p></div>
 
   </label>
-        <input type="button" value="確認" onClick={buttom}/>
-  <p>{graphdata.labels}</p>
   </div>
+        <input type="button" value="確認" onClick={buttom}/>
       <Line
         height={Height}
         width={Width}
         data={graphdata}
         options={options}
-        id="chart-key"
+        id="chart-key" 
       />
-    </div>
+    </>
   );
 }
 
