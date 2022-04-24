@@ -7,7 +7,7 @@ ChartJS.register(...registerables);
 
 
 function App() {
-  const labels = ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18"];
+  const labels = ["1960", "1965", "1970", "1975", "1980", "1985","1990","1995","2000","2005","2010","2015","2020","2025","2030","2035","2040","2045"];
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
     datasets: {
@@ -27,7 +27,6 @@ function App() {
 });
 
   const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
-  const [Statelabels, setStatelabels] = React.useState(0);
   const [Stateaxios, setStateaxios] = React.useState();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
     const headers = {
@@ -59,15 +58,12 @@ async function async(i :number) {
 
     datasetbefore =[];
     for await (const v of posts) {
-  //console.log(element);
 
   
     let datavalue :number[]= [];
-  
     axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
       let datas :string[]= [];
       datas = response.data.result.data[0].data;
-      //console.log(response);
       for (let step = 0; step < datas.length; step++) {
       {/* @ts-ignore */}
       datavalue.push(datas[step].value);
@@ -83,19 +79,14 @@ async function async(i :number) {
     let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
     datasetbefore.push(hash);
   
-
-
 };
 let graphData = {
 labels: labels,
 datasets: datasetbefore,
 };
 
-
-
 {/* @ts-ignore */}
 setgraphdata(graphData) ;
-//console.log(graphdata);
 
 };
 
@@ -116,7 +107,7 @@ setgraphdata(graphData) ;
   };
   const Selectstyle: React.CSSProperties = {
     display: "inline-block",
-    width: window.screen.width*0.3,
+    width: window.screen.width*0.9,
     height: "50px",
     margin: "10px",
   };
@@ -132,9 +123,8 @@ setgraphdata(graphData) ;
     height: "30px",
     margin: "0",
   };
-  let Width :number=  window.screen.width*0.3; 
-  let Height :number= window.screen.height*0.3;
-  //console.log(  window.screen.height);
+  const Width :number=  window.screen.width*0.9; 
+  const Height :number= Width*0.5;
 
 
 
