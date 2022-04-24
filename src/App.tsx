@@ -58,31 +58,36 @@ function App() {
   borderColor: "a",
 }]
   
+function axiosf (d :number) {
 
+  return 
+  }
 
-  const buttom = () :void=> {
-    const elements = document.getElementsByName("select");
+async function async(i :number) {
+   
+  const elements = document.getElementsByName("select");
 
-    let posts :never[]= [];
-    for (let i=0; i<elements.length; i++){
+  let posts :never[]= [];
+  for (let i=0; i<elements.length; i++){
+    {/* @ts-ignore */}
+    if (elements[i].checked){
       {/* @ts-ignore */}
-      if (elements[i].checked){
-        {/* @ts-ignore */}
-        posts.push(elements[i].value);
-        setslectnumstate(posts);
-      }
+      posts.push(elements[i].value);
+      setslectnumstate(posts);
     }
-    //setgraphdata() ;
-  let cnt :number = 0;
-  var musicians= new Array();
-  console.log(slectnumstate);
-  datasetbefore =[];
-  posts.forEach(v => {
-    
-    let datavalue :number[]= [];
-    function axiosf (d :number) {
+  }
+  //setgraphdata() ;
+let cnt :number = 0;
+var musicians= new Array();
+console.log(slectnumstate);
+datasetbefore =[];
+for await (const v of posts) {
+  //console.log(element);
 
-      return axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${d}`,{headers: headers}).then((response) => {
+  
+    let datavalue :number[]= [];
+  
+    axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
       let datas :string[]= [];
       datas = response.data.result.data[0].data;
       //console.log(response);
@@ -95,27 +100,21 @@ function App() {
       setStateaxios(datavalue);
       
         });
-      }
-    async function async(i :number) {
-     
-      await axiosf(i);
-      let red :number= Math.floor( Math.random() * 256 ) ;;
-      let bule :number= Math.floor( Math.random() * 256 ) ;;
-let green :number= Math.floor( Math.random() * 256 ) ;;
-let rgb = `rgb(${red}, ${bule}, ${green})`;
-let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
-console.log(hash);
-
-datasetbefore.push(hash);
-    }
-    async(v);
+    let red :number= Math.floor( Math.random() * 256 ) ;;
+    let bule :number= Math.floor( Math.random() * 256 ) ;;
+    let green :number= Math.floor( Math.random() * 256 ) ;;
+    let rgb = `rgb(${red}, ${bule}, ${green})`;
+    let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
+    console.log(hash);
+    datasetbefore.push(hash);
+  
 
 
-});
+};
 cnt=cnt+1;
 let graphData = {
-  labels: labels,
-  datasets: datasetbefore,
+labels: labels,
+datasets: datasetbefore,
 };
 
 
@@ -124,7 +123,12 @@ console.log(datasetbefore);
 {/* @ts-ignore */}
 setgraphdata(graphData) ;
 //console.log(graphdata);
- }
+
+};
+
+  const  buttom = () :void => {
+    async(1);
+}
  React.useEffect(() => {
    
 }, [Stateaxios]);
