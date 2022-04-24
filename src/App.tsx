@@ -27,7 +27,7 @@ function App() {
 });
 
   const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
-  const [Stateaxios, setStateaxios] = React.useState();
+  const [Stateaxios, setStateaxios] = React.useState<number[]>();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
     const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
@@ -35,16 +35,15 @@ function App() {
   const get :Array<string>=[];
   const selectnum :Array<number>=[];
   const dataset  :Array<string>=[];
-  let datavalue: Array<number> = [];
   let datasetbefore :{
     label: string;
     data: number[];
     borderColor: string;
 }[]=[]
   
-async function async(i :number) {
+async function async(){
    
-  const elements = document.getElementsByName("select");
+  const elements = document.getElementsByName("select")as NodeListOf<HTMLElement>;
 
   let posts :never[]= [];
   for (let i=0; i<elements.length; i++){
@@ -58,7 +57,6 @@ async function async(i :number) {
 
     datasetbefore =[];
     for await (const v of posts) {
-
   
     let datavalue :number[]= [];
     axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
@@ -68,10 +66,9 @@ async function async(i :number) {
       {/* @ts-ignore */}
       datavalue.push(datas[step].value);
       }
-      {/* @ts-ignore */}
       setStateaxios(datavalue);
       
-        });
+    });
     let red :number= Math.floor( Math.random() * 256 ) ;;
     let bule :number= Math.floor( Math.random() * 256 ) ;;
     let green :number= Math.floor( Math.random() * 256 ) ;;
@@ -85,13 +82,12 @@ labels: labels,
 datasets: datasetbefore,
 };
 
-{/* @ts-ignore */}
 setgraphdata(graphData) ;
 
 };
 
-  const  buttom = () :void => {
-    async(1);
+const  buttom = () :void => {
+  async();
 }
 
   const options: {} = {
