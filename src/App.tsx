@@ -1,6 +1,5 @@
 
 import React from "react";
-import ReactDOM from 'react-dom/client';
 import axios from "axios";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from 'chart.js';
@@ -9,7 +8,6 @@ ChartJS.register(...registerables);
 
 function App() {
   const labels = ["1", "2", "3", "4", "5", "6","7","8","9","10","11","12","13","14","15","16","17","18"];
-
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
     datasets: {
@@ -21,15 +19,10 @@ function App() {
   labels: labels,
   datasets: [
     {
-      label: "宮崎県",
-      data:  [1134590, 1080692, 1051105, 1085055, 1151587, 1175543, 1168907, 1175819, 1170007, 1153042, 1135233, 1104069, 1066719, 1023170, 976626, 928034, 876863, 824806]      ,
-      borderColor: "rgb(75, 192, 192)",
-    },
-    {
-      label: "長崎県",
-      data: [1760421, 1641245, 1570245, 1571912, 1590564, 1593968, 1562959, 1544934, 1516523, 1478632, 1426779, 1377187, 1320596, 1257939, 1192223, 1124291, 1053851, 982200]      ,
-      borderColor: "rgb(75, 100, 192)",
-    },
+      label: "",
+      data:  [],
+      borderColor: "",
+    }
   ],
 });
 
@@ -48,21 +41,8 @@ function App() {
     label: string;
     data: number[];
     borderColor: string;
-}[]=[{
-  label: "aaa",
-  data: [0],
-  borderColor: "a",
-},{
-  label: "bbb",
-  data: [1],
-  borderColor: "a",
-}]
+}[]=[]
   
-function axiosf (d :number) {
-
-  return 
-  }
-
 async function async(i :number) {
    
   const elements = document.getElementsByName("select");
@@ -76,12 +56,9 @@ async function async(i :number) {
       setslectnumstate(posts);
     }
   }
-  //setgraphdata() ;
-let cnt :number = 0;
-var musicians= new Array();
-console.log(slectnumstate);
-datasetbefore =[];
-for await (const v of posts) {
+
+    datasetbefore =[];
+    for await (const v of posts) {
   //console.log(element);
 
   
@@ -95,7 +72,6 @@ for await (const v of posts) {
       {/* @ts-ignore */}
       datavalue.push(datas[step].value);
       }
-      console.log(datavalue);
       {/* @ts-ignore */}
       setStateaxios(datavalue);
       
@@ -105,20 +81,17 @@ for await (const v of posts) {
     let green :number= Math.floor( Math.random() * 256 ) ;;
     let rgb = `rgb(${red}, ${bule}, ${green})`;
     let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
-    console.log(hash);
     datasetbefore.push(hash);
   
 
 
 };
-cnt=cnt+1;
 let graphData = {
 labels: labels,
 datasets: datasetbefore,
 };
 
 
-console.log(datasetbefore);
 
 {/* @ts-ignore */}
 setgraphdata(graphData) ;
@@ -129,19 +102,6 @@ setgraphdata(graphData) ;
   const  buttom = () :void => {
     async(1);
 }
- React.useEffect(() => {
-   
-}, [Stateaxios]);
- 
-React.useEffect(() => {
-  console.log(graphdata);
-}, [graphdata]);
-
-
-  //var value: Array<number> = [];
-
-  //console.log(dataset);
-
 
   const options: {} = {
     maintainAspectRatio: false,
@@ -182,9 +142,9 @@ React.useEffect(() => {
     <>
   <div style={Selectstyle}>
   <label>
-      <div style={sell}><input type="checkbox" name="select" value="1"defaultChecked/><p style={p} >北海道</p></div>
-      <div style={sell}><input type="checkbox" name="select" value="2"defaultChecked/><p style={p}>青森県</p></div>
-      <div style={sell}><input type="checkbox" name="select" value="3"defaultChecked/><p style={p}>岩手県</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="2"/><p style={p}>青森県</p></div>
+      <div style={sell}><input type="checkbox" name="select" value="3"/><p style={p}>岩手県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="4"/><p style={p}>宮城県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="5"/><p style={p}>秋田県</p></div>
       <div style={sell}><input type="checkbox" name="select" value="6"/><p style={p}>山形県</p></div>
@@ -232,7 +192,7 @@ React.useEffect(() => {
 
   </label>
   </div>
-        <input type="button" value="確認" onClick={buttom}/>
+        <input type="button" value="select" onClick={buttom}/>
       <Line
         height={Height}
         width={Width}
