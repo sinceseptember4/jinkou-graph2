@@ -8,6 +8,7 @@ ChartJS.register(...registerables);
 
 function App() {
   const labels = ["1960", "1965", "1970", "1975", "1980", "1985","1990","1995","2000","2005","2010","2015","2020","2025","2030","2035","2040","2045"];
+  console.log("aaa");
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
     datasets: {
@@ -29,18 +30,15 @@ function App() {
   const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
   const [Stateaxios, setStateaxios] = React.useState<number[]>();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
-    const headers = {
+  const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
   }
-  const get :Array<string>=[];
-  const selectnum :Array<number>=[];
-  const dataset  :Array<string>=[];
   let datasetbefore :{
     label: string;
     data: number[];
     borderColor: string;
 }[]=[]
-  
+//console.log(process.env.REACT_APP_POSIPAN_API_KEY);
 async function async(){
    
   const elements = document.getElementsByName("select")as NodeListOf<HTMLElement>;
@@ -67,17 +65,20 @@ async function async(){
       datavalue.push(datas[step].value);
       }
       setStateaxios(datavalue);
+      console.log(datavalue);
       
     });
-    let red :number= Math.floor( Math.random() * 256 ) ;;
-    let bule :number= Math.floor( Math.random() * 256 ) ;;
-    let green :number= Math.floor( Math.random() * 256 ) ;;
-    let rgb = `rgb(${red}, ${bule}, ${green})`;
-    let hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
+    const red :number= Math.floor( Math.random() * 256 ) ;;
+    const bule :number= Math.floor( Math.random() * 256 ) ;;
+    const green :number= Math.floor( Math.random() * 256 ) ;;
+    const rgb = `rgb(${red}, ${bule}, ${green})`;
+    
+    console.log(Stateaxios);
+    const hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
     datasetbefore.push(hash);
   
 };
-let graphData = {
+const graphData = {
 labels: labels,
 datasets: datasetbefore,
 };
