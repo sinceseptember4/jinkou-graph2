@@ -8,7 +8,7 @@ ChartJS.register(...registerables);
 
 function App() {
   const labels = ["1960", "1965", "1970", "1975", "1980", "1985","1990","1995","2000","2005","2010","2015","2020","2025","2030","2035","2040","2045"];
-  console.log("aaa");
+  console.log( process.env.REACT_APP_HELLO_WORLD);
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
     datasets: {
@@ -33,6 +33,7 @@ function App() {
   const headers = {
     'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
   }
+  console.log(process.env.REACT_APP_API);
   let datasetbefore :{
     label: string;
     data: number[];
@@ -49,7 +50,7 @@ async function async(){
     if (elements[i].checked){
       {/* @ts-ignore */}
       posts.push(elements[i].value);
-      setslectnumstate(posts);
+      //setslectnumstate(posts);
     }
   }
 
@@ -76,7 +77,7 @@ async function async(){
     console.log(Stateaxios);
     const hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
     datasetbefore.push(hash);
-  
+    
 };
 const graphData = {
 labels: labels,
@@ -127,6 +128,9 @@ const  buttom = () :void => {
 
   return (
     <>
+    <h1>
+      {process.env.REACT_APP_HELLO_WORLD}
+    </h1>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
