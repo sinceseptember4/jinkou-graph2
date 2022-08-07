@@ -8,7 +8,6 @@ ChartJS.register(...registerables);
 
 function App() {
   const labels = ["1960", "1965", "1970", "1975", "1980", "1985","1990","1995","2000","2005","2010","2015","2020","2025","2030","2035","2040","2045"];
-  console.log( process.env.REACT_APP_HELLO_WORLD);
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
     datasets: {
@@ -31,9 +30,8 @@ function App() {
   const [Stateaxios, setStateaxios] = React.useState<number[]>();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
   const headers = {
-    'X-API-KEY': 'XKTYU01YdTFuFKoRNLlev4Wk6GJAqFgPiv8QaiIM'
+    'X-API-KEY': process.env.REACT_APP_API
   }
-  console.log(process.env.REACT_APP_API);
   let datasetbefore :{
     label: string;
     data: number[];
@@ -58,6 +56,7 @@ async function async(){
     for await (const v of posts) {
   
     let datavalue :number[]= [];
+    {/* @ts-ignore */}
     axios.get(`https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=${v}`,{headers: headers}).then((response) => {
       let datas :string[]= [];
       datas = response.data.result.data[0].data;
@@ -128,9 +127,6 @@ const  buttom = () :void => {
 
   return (
     <>
-    <h1>
-      {process.env.REACT_APP_HELLO_WORLD}
-    </h1>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
