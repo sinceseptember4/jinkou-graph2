@@ -65,7 +65,7 @@ async function async(){
       datavalue.push(datas[step].value);
       }
       setStateaxios(datavalue);
-      console.log(datavalue);
+      console.log(document.documentElement.clientWidth);
       
     });
     const red :number= Math.floor( Math.random() * 256 ) ;;
@@ -104,7 +104,7 @@ const  buttom = () :void => {
   };
   const Selectstyle: React.CSSProperties = {
     display: "inline-block",
-    width: window.screen.width*0.9,
+    width: document.documentElement.clientWidth*0.9,
     height: "50px",
     margin: "10px",
   };
@@ -120,13 +120,14 @@ const  buttom = () :void => {
     height: "30px",
     margin: "0",
   };
-  const Width :number=  window.screen.width*0.9; 
+  const Width :number=  document.documentElement.clientWidth*0.9; 
   const Height :number= Width*0.5;
 
 
 
   return (
     <>
+    <div>{document.documentElement.clientWidth}</div>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
