@@ -1,4 +1,4 @@
-
+import Graph from './components/graph';
 import React from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
@@ -26,7 +26,6 @@ function App() {
   ],
 });
 
-  const [slectnumstate, setslectnumstate] = React.useState<never[]>([]);
   const [Stateaxios, setStateaxios] = React.useState<number[]>();
   const todoufuken = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
   const headers = {
@@ -37,14 +36,14 @@ function App() {
     data: number[];
     borderColor: string;
 }[]=[]
-//console.log(process.env.REACT_APP_POSIPAN_API_KEY);
+
 async function async(){
    
   const elements = document.getElementsByName("select")as NodeListOf<HTMLElement>;
 
   let posts :never[]= [];
   for (let i=0; i<elements.length; i++){
-    {/* @ts-ignore */}
+      {/* @ts-ignore */}
     if (elements[i].checked){
       {/* @ts-ignore */}
       posts.push(elements[i].value);
@@ -68,9 +67,9 @@ async function async(){
       console.log(document.documentElement.clientWidth);
       
     });
-    const red :number= Math.floor( Math.random() * 256 ) ;;
-    const bule :number= Math.floor( Math.random() * 256 ) ;;
-    const green :number= Math.floor( Math.random() * 256 ) ;;
+    const red :number= Math.floor( Math.random() * 256 ) ;
+    const bule :number= Math.floor( Math.random() * 256 ) ;
+    const green :number= Math.floor( Math.random() * 256 ) ;
     const rgb = `rgb(${red}, ${bule}, ${green})`;
     
     console.log(Stateaxios);
@@ -127,7 +126,6 @@ const  buttom = () :void => {
 
   return (
     <>
-    <div>{document.documentElement.clientWidth}</div>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
@@ -179,15 +177,19 @@ const  buttom = () :void => {
       <div style={sell}><input type="checkbox" name="select" value="47"/><p style={p}>沖縄県</p></div>
 
   </label>
+ 
   </div>
         <input type="button" value="select" onClick={buttom}/>
-      <Line
-        height={Height}
-        width={Width}
-        data={graphdata}
-        options={options}
-        id="chart-key" 
+        <Line
+      height={Height}
+      width={Width}
+      data={graphdata}
+      options={options}
+      id="chart-key" 
       />
+        <Graph data={graphdata}></Graph>
+        
+
     </>
   );
 }
