@@ -35,7 +35,7 @@ const Graph = (props: Props) => {
         data: number[];
         borderColor: string;
     }[];
-}>({labels:[],datasets:[]});
+  }>({labels:[],datasets:[]});
 
   let graphData = props.data;
 
@@ -45,17 +45,16 @@ const Graph = (props: Props) => {
     },
     [graphData],400);
     
+    
 
-
-  return <>     
-  {console.log(props.data)}
-        <Line
+  return <>
+    <Line
       height={Height}
       width={Width}
       data={graphdata}
       options={options}
       id="chart-key" 
-      />
+    />
   </>
   
 

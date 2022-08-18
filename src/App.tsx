@@ -2,7 +2,6 @@ import Graph from './components/graph';
 import SelectButtom from "./components/selectbuttom"
 import React from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from 'chart.js';
 ChartJS.register(...registerables);
 
@@ -48,12 +47,11 @@ async function async(){
     if (elements[i].checked){
       {/* @ts-ignore */}
       posts.push(elements[i].value);
-      //setslectnumstate(posts);
     }
   }
 
-    datasetbefore =[];
-    for await (const v of posts) {
+  datasetbefore =[];
+  for await (const v of posts) {
   
     let datavalue :number[]= [];
     {/* @ts-ignore */}
@@ -76,14 +74,14 @@ async function async(){
     const hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
     datasetbefore.push(hash);
     
-};
+  };
 
-const graphData = {
-  labels: labels,
-  datasets: datasetbefore,
-};
+  const graphData = {
+    labels: labels,
+    datasets: datasetbefore,
+  };
 
-setgraphdata(graphData) ;
+  setgraphdata(graphData) ;
 
 };
 
@@ -122,7 +120,6 @@ const  buttom = () :void => {
 
   return (
     <>
-    <SelectButtom></SelectButtom>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
@@ -174,7 +171,7 @@ const  buttom = () :void => {
       <div style={sell}><input type="checkbox" name="select" value="47"/><p style={p}>沖縄県</p></div>
 
   </label>
- 
+
   </div>
         <input type="button" value="select" onClick={buttom}/>
 

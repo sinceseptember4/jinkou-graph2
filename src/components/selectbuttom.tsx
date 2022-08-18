@@ -19,8 +19,6 @@ const sell: React.CSSProperties = {
   height: "30px",
   margin: "0",
 };
-const Width :number=  document.documentElement.clientWidth*0.9; 
-const Height :number= Width*0.5;
 
 
 
@@ -38,7 +36,6 @@ const SelectButtom = () => {
     });
   }, []);
   return <>
-    {console.log(Data)}
     {Data.map((data, index) => {
           return (
             <div key={index} style={sell} className="list-row">
