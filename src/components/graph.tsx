@@ -1,8 +1,9 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { useDelayedEffect } from "./useDelayedEffect";
 import { Chart as ChartJS, registerables } from 'chart.js';
-import { render } from "@testing-library/react";
 ChartJS.register(...registerables);
+
 
 
 type Props = {
@@ -25,16 +26,33 @@ const Width :number=  document.documentElement.clientWidth*0.9;
 const Height :number= Width*0.5;
 
 
-const graph = (props: Props) => {
+const Graph = (props: Props) => {
   
-  
+  const [graphdata, setgraphdata] = React.useState< {
+    labels: string[];
+    datasets: {
+        label: string;
+        data: number[];
+        borderColor: string;
+    }[];
+}>({labels:[],datasets:[]});
+
+  let graphData = props.data;
+
+  useDelayedEffect(
+    () => {
+      setgraphdata(graphData)
+    },
+    [graphData],400);
+    
+
 
   return <>     
   {console.log(props.data)}
         <Line
       height={Height}
       width={Width}
-      data={props.data}
+      data={graphdata}
       options={options}
       id="chart-key" 
       />
@@ -43,4 +61,4 @@ const graph = (props: Props) => {
 
 }
 
-  export default graph;
+  export default Graph;

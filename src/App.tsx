@@ -1,4 +1,5 @@
 import Graph from './components/graph';
+import SelectButtom from "./components/selectbuttom"
 import React from "react";
 import axios from "axios";
 import { Line } from "react-chartjs-2";
@@ -38,7 +39,7 @@ function App() {
 }[]=[]
 
 async function async(){
-   
+  
   const elements = document.getElementsByName("select")as NodeListOf<HTMLElement>;
 
   let posts :never[]= [];
@@ -64,22 +65,22 @@ async function async(){
       datavalue.push(datas[step].value);
       }
       setStateaxios(datavalue);
-      console.log(document.documentElement.clientWidth);
       
+    }).catch((error) => {
+      alert("エラーが発生しました。"+ error)
     });
     const red :number= Math.floor( Math.random() * 256 ) ;
     const bule :number= Math.floor( Math.random() * 256 ) ;
     const green :number= Math.floor( Math.random() * 256 ) ;
     const rgb = `rgb(${red}, ${bule}, ${green})`;
-    
-    console.log(Stateaxios);
     const hash: { label: string; data: number[]; borderColor:string;} ={ label: todoufuken[v-1], data: datavalue, borderColor: rgb};;
     datasetbefore.push(hash);
     
 };
+
 const graphData = {
-labels: labels,
-datasets: datasetbefore,
+  labels: labels,
+  datasets: datasetbefore,
 };
 
 setgraphdata(graphData) ;
@@ -95,12 +96,7 @@ const  buttom = () :void => {
     responsive: false
   };
 
-  const divStyle: React.CSSProperties = {
-    marginLeft: "auto",
-    marginRight: "auto",
-    margin: "10px",
-    width: "500px",
-  };
+
   const Selectstyle: React.CSSProperties = {
     display: "inline-block",
     width: document.documentElement.clientWidth*0.9,
@@ -126,6 +122,7 @@ const  buttom = () :void => {
 
   return (
     <>
+    <SelectButtom></SelectButtom>
   <div style={Selectstyle}>
   <label>
       <div style={sell}><input type="checkbox" name="select" value="1"/><p style={p} >北海道</p></div>
@@ -180,13 +177,7 @@ const  buttom = () :void => {
  
   </div>
         <input type="button" value="select" onClick={buttom}/>
-        <Line
-      height={Height}
-      width={Width}
-      data={graphdata}
-      options={options}
-      id="chart-key" 
-      />
+
         <Graph data={graphdata}></Graph>
         
 
