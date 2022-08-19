@@ -6,7 +6,7 @@ import { Chart as ChartJS, registerables } from 'chart.js';
 ChartJS.register(...registerables);
 
 
-function App() {
+const App: React.FC = ( ) => {
   const labels = ["1960", "1965", "1970", "1975", "1980", "1985","1990","1995","2000","2005","2010","2015","2020","2025","2030","2035","2040","2045"];
   const [graphdata, setgraphdata] = React.useState< {
     labels: string[];
@@ -85,7 +85,7 @@ async function async(){
 
 };
 
-const  buttom = () :void => {
+const  buttom =  () => {
   async();
 }
 
@@ -173,8 +173,7 @@ const  buttom = () :void => {
   </label>
 
   </div>
-        <input type="button" value="select" onClick={buttom}/>
-
+        <input type="button" value="select" onClick={() => buttom()}/>
         <Graph data={graphdata}></Graph>
         
 

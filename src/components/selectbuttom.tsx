@@ -7,6 +7,10 @@ const headers = {
 }
 let datas :string[]= [];
 
+type ChildrenDispatchProps = {
+  buttom: (id: string) => void;
+};
+
 const p: React.CSSProperties = {
   display: "inline-block",
   width: "100px",
@@ -15,6 +19,7 @@ const p: React.CSSProperties = {
 };
 const sell: React.CSSProperties = {
   display: "inline-block",
+  cursor: "pointer",
   width: "120px",
   height: "30px",
   margin: "0",
@@ -22,7 +27,9 @@ const sell: React.CSSProperties = {
 
 
 
-const SelectButtom = () => {
+const SelectButtom : React.FC<ChildrenDispatchProps> = ({
+  buttom,
+})  => {
   const [Data,setData] = React.useState<string[]>([]);
   React.useEffect(() => { 
     {/* @ts-ignore */}
@@ -39,7 +46,7 @@ const SelectButtom = () => {
     {Data.map((data, index) => {
           return (
             <div key={index} style={sell} className="list-row">
-              <input type="checkbox" name="select" value="1"  /><p style={p} >北海道</p>
+              <input type="checkbox" name="select" onClick={() => buttom("id")}value="1"  /><p style={p} >{data}</p>
             </div>
           );
         })}

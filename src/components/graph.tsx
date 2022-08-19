@@ -4,8 +4,6 @@ import { useDelayedEffect } from "./useDelayedEffect";
 import { Chart as ChartJS, registerables } from 'chart.js';
 ChartJS.register(...registerables);
 
-
-
 type Props = {
   data: {
     labels: string[];
@@ -38,7 +36,7 @@ const Graph = (props: Props) => {
   }>({labels:[],datasets:[]});
 
   let graphData = props.data;
-
+//
   useDelayedEffect(
     () => {
       setgraphdata(graphData)
